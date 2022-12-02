@@ -1,7 +1,7 @@
 import logging
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
-__version__ = '4.0.2'
+__version__ = '4.0.3'
 
 from . import coord
 from . import imager
