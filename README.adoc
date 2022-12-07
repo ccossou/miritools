@@ -1,4 +1,4 @@
-= MIRI Commissioning Analysis Projects
+= MIRITools
 :sectnums:
 :toc: left
 :toclevels: 4
@@ -6,7 +6,7 @@
 :lang: en
 :numbered:
 :source-language: python
-:imagesdir:   doc
+:imagesdir:   docs/images
 
 == Introduction
 The "miritools" package contains convenience functions usefull to display or characterize MIRI data on board JWST. Some are more generic and could be usefull in general, but all of them have been created with MIRI in mind in some way or another.
