@@ -5,7 +5,18 @@ The **MIRITools** package contains convenience functions usefull to display or c
 
 MIRITools start at v4.0.0. This is for historical reasons because it is based on the miricap package and I kept the version number for convenience.
 
-Each section is a sub-package. Check :ref:`installation` the project.
+MIRITools is split into several sub-packages:
+
+* **coord**: Everything related to sky coordinates or pixel coordinates
+* **flux**: Everything related to flux conversions, magnitude, Jansky or photon
+* **imager**: detector image manipulation, pixel coordinates from FULL array to subarray, subarray intersection, radial profiles
+* **mask**: Everything related to Data Quality and how to manipulate theses complex informations
+* **plot**: Usefull plots to quickly display information (e.g. :ref:`single_image` is the equivalent to ZScale in DS9)
+* **read**: Reading functions for the various MIRI data products
+* **utils**: Various utility functions, the ones I advise you to check are :ref:`optimum_nbins` and :ref:`mast_reorder`
+* **write**: Functions to write fits files or thumbnails quickly
+
+Check :ref:`installation` the project.
 
 Contents
 --------

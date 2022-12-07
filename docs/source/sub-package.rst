@@ -566,6 +566,7 @@ Compute λ/d in pixel (valid for JWST MIRI Imager) for the given wavelength in m
     size = miritools.utils.lambda_over_d_to_pixels(10)
 
 .. _optimum_nbins:
+
 optimum_nbins
 -----------------------
 Given a dataset destined to be used in a histogram, will return the apropriated number of bins necessary to view the dataset (assuming you display between min and max of that dataset)
