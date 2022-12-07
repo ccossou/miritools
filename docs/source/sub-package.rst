@@ -10,7 +10,7 @@ return colrow shift to transform input filter coordinates into desired filter co
 
     input_filter = "F560W"
     desired_filter = "F1130W"
-    filter_shift(input_filter, desired_filter)
+    miritols.coord.filter_shift(input_filter, desired_filter)
 
 
 convert_filter_position
@@ -22,7 +22,7 @@ return colrow coordinates for the desired filter frame
 
     input_filter = "F560W"
     desired_filter = "F1130W"
-    convert_filter_position((2.5, 4.6), input_filter, desired_filter)
+    miritols.coord.convert_filter_position((2.5, 4.6), input_filter, desired_filter)
 
 hms2dd
 -----------------------
@@ -30,7 +30,7 @@ convert ra from hours minutes seconds into decimal degrees
 
 ..  code-block:: python
 
-    >>> hms2dd(00, 44, 52.1946)
+    >>> miritols.coord.hms2dd(00, 44, 52.1946)
     11.2174775
 
 dms2dd
@@ -39,7 +39,7 @@ convert dec from degree minutes seconds into decimal degrees.
 
 ..  code-block:: python
 
-    >>> dms2dd(85, 10, 25.60)
+    >>> miritols.coord.dms2dd(85, 10, 25.60)
     85.17377777777779
 
 flux
@@ -50,7 +50,7 @@ convert flux in mJy into magnitude to the request band assuming this flux corres
 
 ..  code-block:: python
 
-    mag = flux2mag(flux, band="V", system="Johnson")
+    mag = miritols.flux.flux2mag(flux, band="V", system="Johnson")
 
 
 mag2flux
@@ -59,7 +59,7 @@ convert magnitude in a given band into flux in mJy (associated with the wref of 
 
 ..  code-block:: python
 
-    flux, wref = mag2flux(mag, band="V", system="Johnson")
+    flux, wref = miritols.flux.mag2flux(mag, band="V", system="Johnson")
 
 extrapolate_flux
 -----------------------
@@ -68,8 +68,8 @@ a list of other wavelengths and return an Astropy quantity.
 
 ..  code-block:: python
 
-    extr_flux = extrapolate_flux(2, 5.2, 10., 5000) # in_flux, in_wref, out_wave, temperature
-    fluxes = extrapolate_flux(2, 5.2, [10, 20], 5000)
+    extr_flux = miritols.flux.extrapolate_flux(2, 5.2, 10., 5000) # in_flux, in_wref, out_wave, temperature
+    fluxes = miritols.flux.extrapolate_flux(2, 5.2, [10, 20], 5000)
 
 
 photon2jansky
@@ -80,7 +80,7 @@ Convert a flux in photon/m2/s/microns to Jy given the associated wavelength
 
     wave = 10  # microns
     flux = 1509  # photons/m2/s/microns
-    f_Jy = photon2jansky(flux, wave)
+    f_Jy = miritols.flux.photon2jansky(flux, wave)
 
 jansky2photon
 -----------------------
@@ -90,7 +90,7 @@ Convert a flux in Jy to photon/m2/s/microns given the associated wavelength
 
     wave = 10  # microns
     flux = 1e-3  # Jy
-    f_phot = jansky2photon(flux, wave)
+    f_phot = miritols.flux.jansky2photon(flux, wave)
 
 
 imager
@@ -108,7 +108,7 @@ Convert pixel coordinate in a sub-array into pixel coordinate in full array imag
 
 ..  code-block:: python
 
-    rel_px = abs_to_rel_pixels(abs_px, header)
+    rel_px = miritols.imager.abs_to_rel_pixels(abs_px, header)
 
 
 crop_image
@@ -117,7 +117,7 @@ Resize the first image to match the size of the second. If no header is given, b
 
 ..  code-block:: python
 
-    cropped_im = crop_image(big_im, small_im, big_header, small_header)
+    cropped_im = miritols.imager.crop_image(big_im, small_im, big_header, small_header)
 
 
 find_array_intersect
@@ -126,7 +126,7 @@ Given a list of header, will return the coordinates of the box of pixel common t
 
 ..  code-block:: python
 
-    ((xmin, xmax), (ymin, ymax)) = find_array_intersect([header_big, header_medium, header_small])
+    ((xmin, xmax), (ymin, ymax)) = miritols.imager.find_array_intersect([header_big, header_medium, header_small])
 
 radial_profile
 -----------------------
@@ -135,7 +135,7 @@ Compute radial profile on an image, provided function name and center (y, x)
 ..  code-block:: python
 
     (y_center, x_center) = (256, 321)
-    r, std_profile = radial_profile(image, center=(y_center, x_center), func=np.nanstd)
+    r, std_profile = miritols.imager.radial_profile(image, center=(y_center, x_center), func=np.nanstd)
 
 .. important::
     radius for each bin correspond to the average of the radius of ALL pixel within a bin, meaning the associated radius is not necessarily the center of the bin.
@@ -147,7 +147,7 @@ Compute multiple radial profiles on an image, starting at center (y, x) given in
 ..  code-block:: python
 
     (y_center, x_center) = (256, 321)
-    radial_data = radial_profiles(image, center=(y_center, x_center))
+    radial_data = miritols.imager.radial_profiles(image, center=(y_center, x_center))
     # e.g. radial_data["r"], radial_data["mean"]
 
 
@@ -160,8 +160,8 @@ Given an image, a center (y, x) and a radius, return a square box centered on *c
 
 ..  code-block:: python
 
-    sub_image = select_sub_image(big_im, center=(5, 6), radius=3)
-    sub_image, (corner_y, corner_x) = select_sub_image(big_im, center=(5, 6), radius=3, corner=True)
+    sub_image = miritols.imager.select_sub_image(big_im, center=(5, 6), radius=3)
+    sub_image, (corner_y, corner_x) = miritols.imager.select_sub_image(big_im, center=(5, 6), radius=3, corner=True)
 
 
 subpixel_shift
@@ -170,7 +170,7 @@ Given an image and a *dy* and *dx* shift as float, will return the shifted image
 
 ..  code-block:: python
 
-    new_image = subpixel_shift(image, dy, dx)
+    new_image = miritols.imager.subpixel_shift(image, dy, dx)
 
 mask
 =========
@@ -183,7 +183,7 @@ Force some pixel DQ as visible (and exclude them from the mask). Combined DQ are
 
 ..  code-block:: python
 
-    output_mask = change_mask(input_mask, exclude_from_mask=[2])
+    output_mask = miritols.mask.change_mask(input_mask, exclude_from_mask=[2])
 
 .. note::
 
@@ -195,7 +195,7 @@ Merge multiple mask into one were a pixel is visible *only* if never masked in a
 
 ..  code-block:: python
 
-    combined = combine_masks([m1, m2, m3])
+    combined = miritols.mask.combine_masks([m1, m2, m3])
 
 
 decompose_mask_status
@@ -204,7 +204,7 @@ Detail the DQ status of a pixel (because a single pixel can have multiple status
 
 ..  code-block:: python
 
-    result = mask.decompose_mask_status(768)
+    result = miritols.mask.mask.decompose_mask_status(768)
     >>> print(result)
     [256, 512]
 
@@ -214,7 +214,7 @@ Same as the function before, but return bits instead of flag value:
 
 ..  code-block:: python
 
-    result = mask.decompose_to_bits(768)
+    result = miritols.mask.mask.decompose_to_bits(768)
     >>> print(result)
     [8, 9] # 2^8, 2^9
 
@@ -224,7 +224,7 @@ From a full DQ image, will extract only the image of a given flag or combination
 
 ..  code-block:: python
 
-    single_flag = extract_flag_image(mask, 2)
+    single_flag = miritols.mask.extract_flag_image(mask, 2)
 
 
 .. _get_separated_dq_array:
@@ -235,7 +235,7 @@ From the original DQ array array(y, x) (that have all flags combined, i.e a  pix
 
 ..  code-block:: python
 
-    result = mask.get_separated_dq_array(dq_mask)
+    result = miritols.mask.get_separated_dq_array(dq_mask)
 
     saturation_image = result[:, :, 1]  # because saturation flag: 2^1
 
@@ -247,7 +247,7 @@ Given a mask, will tell the different DQ status combination seen, and how many p
 
 ..  code-block:: python
 
-    print(mask_statistic(mask, min_pix=20))
+    print(miritols.mask.mask_statistic(mask, min_pix=20))
 
 plot
 =======
@@ -293,7 +293,7 @@ Quickly display an histogram for an input dataset, using optimised number of bin
 
 .. figure:: images/histogram.png
 
-    Exemple of the *imager.plot.histogram()* function
+    Exemple of the *miritools.plot.histogram()* function
 
 .. _single_image:
 
@@ -317,7 +317,7 @@ Optional parameter:
 
 .. figure:: images/single_image.png
     
-    Exemple of the *imager.plot.single_image()* function
+    Exemple of the *miritools.plot.single_image()* function
 
 .. _MIRI_flag_images:
 
@@ -327,12 +327,12 @@ Expect list (or one) filenames for a level 2 MIRI imager FITS file, will display
 
 ..  code-block:: python
 
-    fig = MIRI_flag_images(filenames, flag=2, title_keyword="NGROUPS")
-    fig2 = MIRI_flag_images(filenames, flag=2, titles=["file1", "file2"])
+    fig = miritols.plot.MIRI_flag_images(filenames, flag=2, title_keyword="NGROUPS")
+    fig2 = miritols.plot.MIRI_flag_images(filenames, flag=2, titles=["file1", "file2"])
 
 .. figure:: images/saturation_images.png
 
-    Exemple of the *imager.plot.MIRI_flag_images()* function
+    Exemple of the *miritools.plot.MIRI_flag_images()* function
 
 .. _MIRI_saturation_frame:
 
@@ -367,7 +367,7 @@ Optional:
 
 .. figure:: images/saturation_analysis.png
 
-    Exemple of the *imager.plot.MIRI_saturation_frame()* function
+    Exemple of the *miritools.plot.MIRI_saturation_frame()* function
 
 MIRI_ramp_flag
 -----------------------
@@ -434,7 +434,7 @@ Read multiple MIRI ramps
 
 ..  code-block:: python
 
-    images, metadatas = read.MIRI_ramps(filenames)
+    images, metadatas = miritools.read.MIRI_ramps(filenames)
 
 MIRI_exposures
 -----------------------
@@ -442,7 +442,7 @@ Read multiple MIRI datamodel exposures (_cal, or _rates) (given list of filename
 
 ..  code-block:: python
 
-    time, images, metadatas = read.MIRI_exposures(filenames, exclude_from_mask=[4])
+    time, images, metadatas = miritools.read.MIRI_exposures(filenames, exclude_from_mask=[4])
 
 MIRI_rateints
 -----------------------
@@ -450,7 +450,7 @@ Read multiple MIRI datamodel integrations (_rateints) (given list of filenames)
 
 ..  code-block:: python
 
-    time, images, metadatas = read.MIRI_rateints(filenames, exclude_from_mask=[4])
+    time, images, metadatas = miritools.read.MIRI_rateints(filenames, exclude_from_mask=[4])
 
 
 MIRI_mask_statistics
@@ -459,7 +459,7 @@ Given a FITS filename, return the mask statistic of that file (see :ref:`mask_st
 
 ..  code-block:: python
 
-    read.MIRI_mask_statistics(filename)
+    miritools.read.MIRI_mask_statistics(filename)
 
 
 .. _compare_headers:
@@ -470,9 +470,9 @@ Read multiple FITS files and compare headers. In a first part, all keywords whos
 
 ..  code-block:: python
 
-    print(read.compare_headers(filenames))
+    print(miritools.read.compare_headers(filenames))
 
-    print(read.compare_headers(filenames, exclude_keywords=["DATE-OBS"]))
+    print(miritools.read.compare_headers(filenames, exclude_keywords=["DATE-OBS"]))
 
 An example output::
 
@@ -512,7 +512,7 @@ For a FITS filename, return the start time of the exposure as a time object
 
 ..  code-block:: python
 
-    time = get_exp_time(metadata)
+    time = miritools.utils.get_exp_time(metadata)
 
 .. _mast_reorder:
 
@@ -534,8 +534,8 @@ If you want to test the function without moving anything, you can use the parame
 
     input_folder = "/local/home/ccossou/tmp/MAST_rehearsal_data"
 
-    imlib.utils.reorder_miri_input_folder(input_folder, dryrun=True)
-    # imlib.utils.reorder_miri_input_folder(input_folder)
+    miritools.utils.reorder_miri_input_folder(input_folder, dryrun=True)
+    # miritools.utils.reorder_miri_input_folder(input_folder)
 
 list_files
 -----------------------
@@ -543,7 +543,7 @@ Given a pattern (using glob) will retrieve a list of FITS filenames, return an e
 
 ..  code-block:: python
 
-    filenames = list_files("simulations/*_cal.fits")
+    filenames = miritools.utils.list_files("simulations/*_cal.fits")
 
 
 .. _list_ordered_files:
@@ -554,8 +554,8 @@ Given a pattern (using glob) will retrieve a list of FITS filenames, then order 
 
 ..  code-block:: python
 
-    filenames = list_ordered_files("simulations/*_cal.fits")
-    filenames = list_ordered_files("simulations/*.fits", jpl=True)
+    filenames = miritools.utils.list_ordered_files("simulations/*_cal.fits")
+    filenames = miritools.utils.list_ordered_files("simulations/*.fits", jpl=True)
 
 lambda_over_d_to_pixels
 ----------------------------
@@ -563,15 +563,19 @@ Compute λ/d in pixel (valid for JWST MIRI Imager) for the given wavelength in m
 
 ..  code-block:: python
 
-    size = lambda_over_d_to_pixels(10)
+    size = miritools.utils.lambda_over_d_to_pixels(10)
 
+.. _optimum_nbins:
 optimum_nbins
 -----------------------
 Given a dataset destined to be used in a histogram, will return the apropriated number of bins necessary to view the dataset (assuming you display between min and max of that dataset)
 
 ..  code-block:: python
 
-    nbins = optimum_nbins(dataset)
+    import miritools
+    import matplotlib.pyplot as plt
+
+    nbins = miritools.utils.optimum_nbins(dataset)
     fig, ax = plt.subplots()
     ax.hist(dataset, bins=nbins, density=True, histtype="step")
 
@@ -623,8 +627,8 @@ Function to write an image to a FITS file with or without a header
 
 ..  code-block:: python
 
-    write.write_fits(image, "output.fits", header=header)
-    write.write_fits(image, "output.fits.gz")
+    miritools.write.write_fits(image, "output.fits", header=header)
+    miritools.write.write_fits(image, "output.fits.gz")
 
 write_jwst_fits
 -----------------------
@@ -632,8 +636,8 @@ Function to write an image to a FITS file and make it look like a JWST image (i.
 
 ..  code-block:: python
 
-    write.write_jwst_fits(image, "output.fits", header=header)
-    write.write__jwst_fits(image, "output.fits.gz")
+    miritools.write.write_jwst_fits(image, "output.fits", header=header)
+    miritools.write.write__jwst_fits(image, "output.fits.gz")
 
 fits_thumbnail
 -----------------------
@@ -641,9 +645,9 @@ retrieve data from extension 1 (by default) and write it with the same name as t
 
 ..  code-block:: python
 
-    write.fits_thumbnail("output.fits")
-    write.fits_thumbnail("output.fits", fits_extension=0, ext="png")
-    write.fits_thumbnail("output.fits", fits_extension=0, ext="png")
+    miritools.write.fits_thumbnail("output.fits")
+    miritools.write.fits_thumbnail("output.fits", fits_extension=0, ext="png")
+    miritools.write.fits_thumbnail("output.fits", fits_extension=0, ext="png")
 
 write_thumbnail
 -----------------------
@@ -651,5 +655,5 @@ write image to file, with ZScale applied
 
 ..  code-block:: python
 
-    write.write_thumbnail(image, "output.jpg")
+    miritools.write.write_thumbnail(image, "output.jpg")
 
