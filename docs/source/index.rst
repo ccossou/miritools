@@ -25,5 +25,3 @@ Contents
 
    intro
    sub-package
-   api
-
